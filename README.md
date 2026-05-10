@@ -182,6 +182,8 @@ This analysis connects logistics data with customer sentiment. By calculating th
 #### **Business Insights:**
 The data clearly shows a sharp decline in average ratings for "Very Late" deliveries compared to those that arrive on time. Logistics is a critical driver of brand reputation. Improving shipping reliability is the most direct way to increase the overall satisfaction score of the platform. This correlation helps the business justify higher investments in logistics optimization by showing its direct impact on customer feedback.
 
+---
+
 ## 🏁 Final Business Conclusion
 Based on the comprehensive SQL analysis of the Olist dataset, the company’s condition can be summarized as follows:
 
