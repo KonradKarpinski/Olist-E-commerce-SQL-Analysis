@@ -26,7 +26,7 @@ ORDER BY time ASC;
 The query examines every delivered order and groups them into monthly intervals, showing both total revenue and the number of orders for each month.
 
 #### **Visual Result:**
-![Task 1 Results](images/Task1 updated.png)
+![Task 1 Results](images/Task1updated.png)
 
 #### **Business Insights:**
 The data shows a consistent upward trend in both revenue and the number of orders, with a significant peak in **November 2017** (probably due to Black Friday). Understanding these peaks helps the business plan inventory and server capacity for future high-traffic seasons.
@@ -58,7 +58,7 @@ LIMIT (10);
 The query links sold items to their specific categories and translates them into English using a translation table. It calculates total gross sales, the total volume of items sold, and the average price per item to provide a comprehensive view of category performance.
 
 #### **Visual Result:**
-![Task 2 Results](images/Task2 updated.png)
+![Task 2 Results](images/Task2updated.png)
 
 #### **Business Insights:**
 Health & Beauty and Watches are the primary revenue drivers for the platform. The analysis shows that different categories have different profit models: some (like Bed Bath Table) rely on high sales volume, while others (like Watches) generate high revenue through premium pricing. These insights allow the business to tailor marketing strategies and optimize stock levels based on category-specific performance.
@@ -96,7 +96,7 @@ LIMIT 5;
 The query compares the actual delivery date with estimated delivery date promised to the customer. Based on the ddifference between these days, delivered orders were categorized as On-time or Early, Slightly Late and Very Late (more than 3 days of delivery delay). This allowed for calculating the percentage of critical delays (marked as Very Late) of all orders per state, identifying regional logistical bottlenecks.
 
 #### **Visual Result:**
-![Task 3 Results](images/Task3 updated.png)
+![Task 3 Results](images/Task3updated.png)
 
 #### **Business Insights:**
 The analysis identifies specific states (primarily in the North-East region) that suffer from significantly higher critical delay rates compared to the rest of the country. The company should evaluate its carrier partnerships to  provide better delivery performance in these high-delay states.
@@ -139,7 +139,7 @@ GROUP BY loyalty_segment;
 The query tracks unique individual customers throughout the platform's history and segments them into "Returning" and "One-time" categories, so it is able to compare the size of each group, their percentage share and their average transaction value.
 
 #### **Visual Result:**
-![Task 4 Results](images/Task4 updated.png)
+![Task 4 Results](images/Task4updated.png)
 
 #### **Business Insights:**
 The vast majority of the database consists of one-time buyers, which highlights a massive opportunity for growth through retention-focused marketing and loyalty programs. Understanding the spending patterns of returning customers allows the business to calculate a more accurate Customer Lifetime Value (LTV), which is crucial for determining how much can be spent on acquiring new users.
@@ -177,7 +177,7 @@ ORDER BY average_review_score DESC;
 This analysis connects logistics data with customer sentiment. By calculating the difference between actual and estimated delivery dates, orders were categorized into three delivery delay segments (same as Task3). Then the average review score (1-5) was calculated for each segment. This reveals exactly how much delivery performance impacts customer satisfaction.
 
 #### **Visual Result:**
-![Task 5 Results](images/Task5 updated.png)
+![Task 5 Results](images/Task5updated.png)
 
 #### **Business Insights:**
 The data clearly shows a sharp decline in average ratings for "Very Late" deliveries compared to those that arrive on time. Logistics is a critical driver of brand reputation. Improving shipping reliability is the most direct way to increase the overall satisfaction score of the platform. This correlation helps the business justify higher investments in logistics optimization by showing its direct impact on customer feedback.
