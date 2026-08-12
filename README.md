@@ -26,7 +26,7 @@ ORDER BY time ASC;
 The query examines every delivered order and groups them into monthly intervals, showing both total revenue and the number of orders for each month.
 
 #### **Visual Result:**
-![Task 1 Results](images/Task1.png)
+![Task 1 Results](images/Task1updated.png)
 
 #### **Business Insights:**
 The data shows a consistent upward trend in both revenue and the number of orders, with a significant peak in **November 2017** (probably due to Black Friday). Understanding these peaks helps the business plan inventory and server capacity for future high-traffic seasons.
@@ -58,7 +58,7 @@ LIMIT 10;
 The query links sold items to their specific categories and translates them into English using a translation table. It calculates total gross sales, the total volume of items sold, and the average price per item to provide a comprehensive view of category performance.
 
 #### **Visual Result:**
-![Task 2 Results](images/Task1updatedv2.png)
+![Task 2 Results](images/Task2updated.png)
 
 #### **Business Insights:**
 Health & Beauty and Watches are the primary revenue drivers for the platform. The analysis shows that different categories have different profit models: some (like Bed Bath Table) rely on high sales volume, while others (like Watches) generate high revenue through premium pricing. These insights allow the business to tailor marketing strategies and optimize stock levels based on category-specific performance.
