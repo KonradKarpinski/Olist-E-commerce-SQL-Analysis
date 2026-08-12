@@ -26,7 +26,7 @@ ORDER BY time ASC;
 The query examines every delivered order and groups them into monthly intervals, showing both total revenue and the number of orders for each month.
 
 #### **Visual Result:**
-![Task 1 Results](images/Task1updated.png)
+![Task 1 Results](images/Task1.png)
 
 #### **Business Insights:**
 The data shows a consistent upward trend in both revenue and the number of orders, with a significant peak in **November 2017** (probably due to Black Friday). Understanding these peaks helps the business plan inventory and server capacity for future high-traffic seasons.
