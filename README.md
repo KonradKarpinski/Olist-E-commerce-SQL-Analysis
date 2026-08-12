@@ -58,7 +58,7 @@ LIMIT 10;
 The query links sold items to their specific categories and translates them into English using a translation table. It calculates total gross sales, the total volume of items sold, and the average price per item to provide a comprehensive view of category performance.
 
 #### **Visual Result:**
-![Task 2 Results](images/Task2updatedv2.png)
+![Task 2 Results](images/Task1updatedv2.png)
 
 #### **Business Insights:**
 Health & Beauty and Watches are the primary revenue drivers for the platform. The analysis shows that different categories have different profit models: some (like Bed Bath Table) rely on high sales volume, while others (like Watches) generate high revenue through premium pricing. These insights allow the business to tailor marketing strategies and optimize stock levels based on category-specific performance.
