@@ -5,6 +5,34 @@ This project focuses on extracting actionable business insights from a large-sca
 
 ---
 
+## 📈 Task 0: Data cleaning and data validation
+#### **Objective:**
+To ensure data integrity before performing queries or statistical modeling (finding missing values, data anomalies. 
+
+#### **SQL Query:**
+```sql
+SELECT 
+strftime('%Y-%m', order_purchase_timestamp) AS time, ROUND(SUM(items.price + items.freight_value), 2) AS total_revenue, 
+COUNT(DISTINCT orders.order_id) AS number_of_orders 
+FROM olist_orders_dataset AS orders
+INNER JOIN olist_order_items_dataset AS items
+ON orders.order_id = items.order_id
+WHERE orders.order_status = 'delivered'
+GROUP BY time 
+ORDER BY time ASC;
+```
+
+#### **Analysis & Results:**
+The query examines every delivered order and groups them into monthly intervals, showing both total revenue and the number of orders for each month.
+
+#### **Visual Result:**
+![Task 1 Results](images/Task1updated.png)
+
+#### **Business Insights:**
+The data shows a consistent upward trend in both revenue and the number of orders, with a significant peak in **November 2017** (probably due to Black Friday). Understanding these peaks helps the business plan inventory and server capacity for future high-traffic seasons.
+
+---
+
 ## 📈 Task 1: Monthly Revenue
 #### **Objective:**
 To track the platform's financial health by identifying monthly revenue growth and order volume patterns.
