@@ -105,14 +105,10 @@ plt.clf()
 The script merges order data with items, converts purchase timestamps to date objects, and calculatess total daily sales. A 7-day rolling mean is then applied to the daily revenue to smooth out short-term fluctuations. The smoothed time series is visualized to reveal the overarching trend.
 
 #### **Visual Result:**
-![Task 1 Results](images/Python_task1.png)
+![Task 1 Results](images/Figure_5.png)
 
 #### **Business Insights:**
-The data shows a consistent upward trend in both revenue and the number of orders, with a significant peak in **November 2017** (probably due to Black Friday). Understanding these peaks helps the business plan inventory and server capacity for future high-traffic seasons.
-
-
-
-
+Applying a 7-day rolling window effectively eliminates the daily noise caused by standard weekly shopping habits (e.g., weekend transaction dips). This exposes the true, smoothed growth trajectory of the platform, providing a much more reliable foundation for forecasting warehouse staffing and inventory levels ahead of major shopping events.
 
 ---
 
