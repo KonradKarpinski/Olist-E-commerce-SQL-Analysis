@@ -7,7 +7,7 @@ This project focuses on extracting actionable business insights from a large-sca
 
 ## 📈 Task 0: Data cleaning and data validation
 #### **Objective:**
-To ensure data integrity before performing queries or statistical modeling - finding missing values and data anomalies. 
+To ensure data integrity before performing advanced analysis or statistical modeling – specifically by identifying missing values and resolving data anomalies.
 
 #### **Python Query:**
 ```python
@@ -35,10 +35,10 @@ for col in dimensions:
 ```
 
 #### **Analysis & Results:**
-The query above shows two ways of dealing with missing values and data anomalies - dropping rows with NA's (like ordered deliveries with missing values) and data anomalies (order was delivered after it was received by a customer) or filling missing values (unknown product categories and physical dimensions of a product). The rest of missing values were found to be acceptable or not worth dropping or filling (such as product name length). The rest of the code showing the process of finding missing values and data anomalies can be found in a file with python code.
+The query above shows two ways of dealing with missing values and data anomalies - dropping rows with NA's (like delivered orders with missing values) and data anomalies (order was delivered after it was received by a customer) or filling missing values (unknown product categories and physical dimensions of a product). The rest of missing values were found to be acceptable or not worth dropping or filling (such as product name length). The rest of the code showing the process of finding missing values and data anomalies can be found in a file with python code.
 
 #### **Business Insights:**
-Clean data, also imported to SQL, now allows to get proper business inisghts.
+Clean data, also imported to SQL, now allows to get proper business inisights.
 
 ---
 
