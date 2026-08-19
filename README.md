@@ -37,15 +37,14 @@ for col in dimensions:
 #### **Analysis & Results:**
 The query above shows two ways of dealing with missing values and data anomalies - dropping rows with NA's (like ordered deliveries with missing values) and data anomalies (order was delivered after it was received by a customer) or filling missing values (unknown product categories and physical dimensions of a product). The rest of missing values were found to be acceptable or not worth dropping or filling (such as product name length). The rest of the code showing the process of finding missing values and data anomalies can be found in a file with python code.
 
-#### **Visual Result:**
-![Task 1 Results](images/Task1updated.png)
-
 #### **Business Insights:**
 Clean data, also imported to SQL, now allows to get proper business inisghts.
 
 ---
 
-## 📈 Task 1: Monthly Revenue
+# 📈 Task 1: Revenue & Sales Trend
+
+## Step A: Monthly Revenue (SQL)
 #### **Objective:**
 To track the platform's financial health by identifying monthly revenue growth and order volume patterns.
 
@@ -70,6 +69,50 @@ The query examines every delivered order and groups them into monthly intervals,
 
 #### **Business Insights:**
 The data shows a consistent upward trend in both revenue and the number of orders, with a significant peak in **November 2017** (probably due to Black Friday). Understanding these peaks helps the business plan inventory and server capacity for future high-traffic seasons.
+
+---
+
+## Step B: Smoothed Sales Trend (Python)
+#### **Objective:**
+To smooth out daily sales volatility (e.g., weekend drops) and visualize the true underlying macroeconomic trend of the platform using a Rolling Average.
+
+#### **PYTHON Query:**
+```python
+dataframe_merged = pd.merge(orders, order_items, how='left', on='order_id')
+
+dataframe_merged['daily_sale'] = dataframe_merged['price'] + dataframe_merged['freight_value']
+dataframe_merged['order_purchase_timestamp'] = pd.to_datetime(dataframe_merged['order_purchase_timestamp'])
+dataframe_merged['order_date'] = dataframe_merged['order_purchase_timestamp'].dt.date
+
+dataframe_merged_grouped = (dataframe_merged.groupby('order_date').agg({'daily_sale': 'sum'}) .sort_values(by=['order_date'], ascending=[True]))
+dataframe_merged_grouped['rolling_mean_7d'] = dataframe_merged_grouped['daily_sale'].rolling(window=7).mean()
+
+p6 = sns.relplot(
+    data=dataframe_merged_grouped,
+    x='order_date',
+    y='rolling_mean_7d',
+    kind='line',       
+)
+
+p6.fig.suptitle('Store Sales Trend (7-Day Rolling Average)', y=0.99)
+p6.set_axis_labels('Order Date', 'Sale')
+plt.xticks(rotation=45)
+plt.show()
+plt.clf()
+```
+
+#### **Analysis & Results:**
+The script merges order data with items, converts purchase timestamps to date objects, and calculatess total daily sales. A 7-day rolling mean is then applied to the daily revenue to smooth out short-term fluctuations. The smoothed time series is visualized to reveal the overarching trend.
+
+#### **Visual Result:**
+![Task 1 Results](images/Python_task1.png)
+
+#### **Business Insights:**
+The data shows a consistent upward trend in both revenue and the number of orders, with a significant peak in **November 2017** (probably due to Black Friday). Understanding these peaks helps the business plan inventory and server capacity for future high-traffic seasons.
+
+
+
+
 
 ---
 
