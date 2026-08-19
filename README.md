@@ -7,29 +7,41 @@ This project focuses on extracting actionable business insights from a large-sca
 
 ## 📈 Task 0: Data cleaning and data validation
 #### **Objective:**
-To ensure data integrity before performing queries or statistical modeling (finding missing values, data anomalies. 
+To ensure data integrity before performing queries or statistical modeling - finding missing values and data anomalies. 
 
-#### **SQL Query:**
-```sql
-SELECT 
-strftime('%Y-%m', order_purchase_timestamp) AS time, ROUND(SUM(items.price + items.freight_value), 2) AS total_revenue, 
-COUNT(DISTINCT orders.order_id) AS number_of_orders 
-FROM olist_orders_dataset AS orders
-INNER JOIN olist_order_items_dataset AS items
-ON orders.order_id = items.order_id
-WHERE orders.order_status = 'delivered'
-GROUP BY time 
-ORDER BY time ASC;
+#### **Python Query:**
+```python
+# 1. Dropping delivered orders with missing critical timestamps
+indexes_to_drop = orders[(orders['order_status'] == 'delivered') & (orders.isna().any(axis=1))].index
+orders = orders.drop(indexes_to_drop)
+
+# 2. Removing data anomalies
+invalid_dates_index = orders[orders['order_delivered_carrier_date'] > orders['order_delivered_customer_date']].index
+orders = orders.drop(invalid_dates_index)
+
+# 3. Filling missing product categories
+products['product_category_name'] = products['product_category_name'].fillna('Unknown')
+
+# 4. Filling missing physical dimensions
+dimensions = ['product_weight_g', 'product_length_cm', 'product_height_cm', 'product_width_cm']
+
+for col in dimensions:
+    products[col] = products[col].fillna(
+        products.groupby('product_category_name')[col].transform('median')
+    )
+    
+    global_median = products[col].median()
+    products[col] = products[col].fillna(global_median)
 ```
 
 #### **Analysis & Results:**
-The query examines every delivered order and groups them into monthly intervals, showing both total revenue and the number of orders for each month.
+The query above shows two ways of dealing with missing values and data anomalies - dropping rows with NA's (like ordered deliveries with missing values) and data anomalies (order was delivered after it was received by a customer) or filling missing values (unknown product categories and physical dimensions of a product). The rest of missing values were found to be acceptable or not worth dropping or filling (such as product name length). The rest of the code showing the process of finding missing values and data anomalies can be found in a file with python code.
 
 #### **Visual Result:**
 ![Task 1 Results](images/Task1updated.png)
 
 #### **Business Insights:**
-The data shows a consistent upward trend in both revenue and the number of orders, with a significant peak in **November 2017** (probably due to Black Friday). Understanding these peaks helps the business plan inventory and server capacity for future high-traffic seasons.
+Clean data, also imported to SQL, now allows to get proper business inisghts.
 
 ---
 
