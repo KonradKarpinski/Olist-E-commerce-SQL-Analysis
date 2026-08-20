@@ -112,7 +112,8 @@ Applying a 7-day rolling window effectively eliminates the daily noise caused by
 
 ---
 
-## 📦 Task 2: Top Product Categories
+# 📦 Task 2: Product portfolio & Profitability
+## Step A: Top Product Categories (SQL)
 #### **Objective:**
 To identify which product category provides the most revenue and determine if they rely on high sales volume or premium pricing.
 
@@ -143,6 +144,58 @@ The query links sold items to their specific categories and translates them into
 Health & Beauty and Watches are the primary revenue drivers for the platform. The analysis shows that different categories have different profit models: some (like Bed Bath Table) rely on high sales volume, while others (like Watches) generate high revenue through premium pricing. These insights allow the business to tailor marketing strategies and optimize stock levels based on category-specific performance.
 
 ---
+
+## Step B: Margin killers (PYTHON)
+#### **Objective:**
+To cross-reference the top revenue-generating product categories with their average customer review scores, identifying "margin killers" — categories that drive high gross sales but suffer from poor customer satisfaction.
+
+#### **PYTHON Query:**
+```python
+merged_df = pd.merge(orders, order_reviews, how='left', on='order_id')
+merged_df = pd.merge(merged_df, order_items, how='left', on='order_id')
+merged_df = pd.merge(merged_df, products, how='left', on='product_id')
+merged_df = pd.merge(merged_df, category_translation, how='left', on='product_category_name')
+
+merged_df['revenue'] = merged_df['price'] + merged_df['freight_value']
+merged_df_grouped = (merged_df.groupby('product_category_name_english').agg({'revenue':'sum','review_score':'mean'})                )
+top_20_revenue = merged_df_grouped.nlargest(20, 'revenue')
+merged_df_grouped_top10 = top_20_revenue.nsmallest(10, 'review_score')
+print(merged_df_grouped_top10)
+
+p5 = sns.catplot(
+    x='product_category_name_english', 
+    y='revenue', 
+    data=merged_df_grouped_top10, 
+    kind='bar', 
+    hue='review_score',
+)
+
+p5.fig.suptitle('Product categories with the highest revenue and worst reviews', y=1)
+p5.set_axis_labels('Product category', 'Revenue per product category [mln]')
+plt.xticks(rotation=45, ha='right')
+plt.show()
+plt.clf()
+```
+
+#### **Analysis & Results:**
+The script groups the merged dataset by product category to calculate both total gross revenue and the average review score. It first filters for the top 20 categories by revenue, and then isolates the 10 with the lowest average ratings. The disparity between high sales volume and low customer satisfaction is visualized using a bar chart.
+
+#### **Visual Result:**
+![Task 2 Results](images/Task2updated.png)
+
+#### **Business Insights:**
+High gross revenue can be a dangerous metric when viewed in isolation. The categories highlighted in this analysis generate significant cash flow but are actively damaging the platform's reputation. The true profit margin on these specific items is likely severely diminished by the hidden operational costs of products' returns.
+
+
+
+
+
+
+
+
+
+
+
 
 ## 🚚 Task 3: Regional Delivery Delays
 #### **Objective:**
