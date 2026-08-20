@@ -181,7 +181,7 @@ plt.clf()
 The script groups the merged dataset by product category to calculate both total gross revenue and the average review score. It first filters for the top 20 categories by revenue, and then isolates the 10 with the lowest average ratings. The disparity between high sales volume and low customer satisfaction is visualized using a bar chart.
 
 #### **Visual Result:**
-![Task 2 Results](images/Figure_4.png)
+![Task 2 Results](images/Figure_4u.png)
 
 #### **Business Insights:**
 High gross revenue can be a dangerous metric when viewed in isolation. The categories highlighted in this analysis generate significant cash flow but are actively damaging the platform's reputation. The true profit margin on these specific items is likely severely diminished by the hidden operational costs of products' returns.
