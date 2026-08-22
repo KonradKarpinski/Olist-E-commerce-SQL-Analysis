@@ -186,18 +186,10 @@ The script groups the merged dataset by product category to calculate both total
 #### **Business Insights:**
 High gross revenue can be a dangerous metric when viewed in isolation. The categories highlighted in this analysis generate significant cash flow but are actively damaging the platform's reputation. The true profit margin on these specific items is likely severely diminished by the hidden operational costs of products' returns.
 
+---
 
-
-
-
-
-
-
-
-
-
-
-## 🚚 Task 3: Regional Delivery Delays
+# 🚚 Task 3: Logistics & Delivery Performance
+## Step A: Regional Delivery Delays (SQL)
 #### **Objective:**
 To pinpoint specific geographical regions experiencing critical shipping delays to optimize the logistics network.
 
@@ -233,6 +225,62 @@ The query compares the actual delivery date with estimated delivery date promise
 The analysis identifies specific states (primarily in the North-East region) that suffer from significantly higher critical delay rates compared to the rest of the country. The company should evaluate its carrier partnerships to  provide better delivery performance in these high-delay states.
 
 ---
+
+## Step B: Delivery Bottlenecks (PYTHON)
+#### **Objective:**
+To investigate root causes of the critical delivery delays identified in Step A by analyzing the impact of shipping costs (freight value) and logistics complexity (local vs. interstate transit).
+
+#### **PYTHON Query:**
+```python
+# 1. Calculate delivery time in days
+df_merged = pd.merge(orders, customers, how='inner', on='customer_id')
+df_merged['order_delivered_customer_date'] = pd.to_datetime(df_merged['order_delivered_customer_date'])
+df_merged['order_delivered_carrier_date'] = pd.to_datetime(df_merged['order_delivered_carrier_date'])
+df_merged['delivery_time_days'] = (df_merged['order_delivered_customer_date'] - df_merged['order_delivered_carrier_date']).dt.days
+
+# 2. Merge freight value data
+df_merged = pd.merge(df_merged, order_items[['order_id', 'freight_value']], on='order_id', how='left')
+
+# 3. Statistical Testing: Pearson Correlation
+df_clean = df_merged.dropna(subset=['freight_value', 'delivery_time_days'])
+correlation, p_value = pearsonr(df_clean['freight_value'], df_clean['delivery_time_days'])
+print(f"Correlation coefficient: {round(correlation, 3)} | P-value: {round(p_value, 5)}")
+
+# 4. Visualization: Scatterplot
+p2 = sns.relplot(
+    data=df_clean, 
+    x='freight_value', 
+    y='delivery_time_days',
+    kind='scatter'
+)
+p2.fig.suptitle('Correlation between freight value and delivery time', y=1.05)
+p2.set_axis_labels('Freight value', 'Delivery time (days)')
+plt.show()
+```
+#### **Analysis & Results:**
+The script calculates the actual delivery time in days and visualizes its distribution across the five worst-performing states. To objectively identify the bottleneck, a Pearson correlation coefficient was calculated, testing the relationship between shipping costs and transit times, which was also shown on the scatterplot. Finally, a comparative boxplot was generated to segment deliveries into local (intra-state) and interstate shipments and compare delivery times between these two groups.
+
+#### **Visual Result:**
+![Task 3 Results](images/Task3updated.png)
+
+#### **Business Insights:**
+The state-level distribution reveals a systemic issue: in the worst-performing regions, a standard delivery regularly takes over 20 days, with extreme outliers waiting nearly 200 days. The statistical test (r = 0.197) proves that shipping costs are only very weakly correlated with these delays, meaning distance and package weight are not the main issues. Instead, the comparative boxplots clearly demonstrate that crossing state borders is the primary driver of extended transit times. To optimize logistics, the company should encourage sellers to utilize regional fulfillment centers, shifting the focus from interstate shipping to localized delivery networks.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## 👥 Task 4: Customer Retention
 #### **Objective:**
