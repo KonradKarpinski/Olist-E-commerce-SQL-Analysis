@@ -261,7 +261,7 @@ plt.show()
 The script calculates the actual delivery time in days and visualizes its distribution across the five worst-performing states. To objectively identify the bottleneck, a Pearson correlation coefficient was calculated, testing the relationship between shipping costs and transit times, which was also shown on the scatterplot. Finally, a comparative boxplot was generated to segment deliveries into local (intra-state) and interstate shipments and compare delivery times between these two groups.
 
 #### **Visual Result:**
-![Task 3 Results](images/Task3updated.png)
+![Task 3 Results](images/Python_combined.png)
 
 #### **Business Insights:**
 The state-level distribution reveals a systemic issue: in the worst-performing regions, a standard delivery regularly takes over 20 days, with extreme outliers waiting nearly 200 days. The statistical test (r = 0.197) proves that shipping costs are only very weakly correlated with these delays, meaning distance and package weight are not the main issues. Instead, the comparative boxplots clearly demonstrate that crossing state borders is the primary driver of extended transit times. To optimize logistics, the company should encourage sellers to utilize regional fulfillment centers, shifting the focus from interstate shipping to localized delivery networks.
