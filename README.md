@@ -226,7 +226,43 @@ The analysis identifies specific states (primarily in the North-East region) tha
 
 ---
 
-## Step B: Delivery Bottlenecks (PYTHON)
+## Step B: The Cost Of Delays (SQL)
+#### **Objective:**
+To prove the direct correlation between shipping speed and customer ratings (Review Scores).
+
+#### **SQL Query:**
+```sql
+WITH delivery_and_reviews AS (
+SELECT orders.order_id, reviews.review_score,
+CASE 
+WHEN (julianday(orders.order_delivered_customer_date) - julianday(orders.order_estimated_delivery_date)) > 3 THEN 'Very Late'
+WHEN (julianday(orders.order_delivered_customer_date) - julianday(orders.order_estimated_delivery_date)) > 0 THEN 'Slightly Late'
+ELSE 'On-time or Early'
+END AS delivery_status
+FROM olist_orders_dataset AS orders
+JOIN olist_order_reviews_dataset AS reviews ON orders.order_id = reviews.order_id
+WHERE orders.order_status = 'delivered'
+)
+SELECT 
+delivery_status,
+COUNT(*) AS number_of_reviews,
+ROUND(AVG(review_score), 2) AS average_review_score
+FROM delivery_and_reviews
+GROUP BY delivery_status
+ORDER BY average_review_score DESC;
+```
+#### **Analysis & Results:**
+This analysis connects logistics data with customer sentiment. By calculating the difference between actual and estimated delivery dates, orders were categorized into three delivery delay segments (same as Task3). Then the average review score (1-5) was calculated for each segment. This reveals exactly how much delivery performance impacts customer satisfaction.
+
+#### **Visual Result:**
+![Task 5 Results](images/Task5updated.png)
+
+#### **Business Insights:**
+The data clearly shows a sharp decline in average ratings for "Very Late" deliveries compared to those that arrive on time. Logistics is a critical driver of brand reputation. Improving shipping reliability is the most direct way to increase the overall satisfaction score of the platform. This correlation helps the business justify higher investments in logistics optimization by showing its direct impact on customer feedback.
+
+---
+
+## Step C: Delivery Bottlenecks (PYTHON)
 #### **Objective:**
 To investigate root causes of the critical delivery delays identified in Step A by analyzing the impact of shipping costs (freight value) and logistics complexity (local vs. interstate transit).
 
@@ -266,23 +302,10 @@ The script calculates the actual delivery time in days and visualizes its distri
 #### **Business Insights:**
 The state-level distribution reveals a systemic issue: in the worst-performing regions, a standard delivery regularly takes over 20 days, with extreme outliers waiting nearly 200 days. The statistical test (r = 0.197) proves that shipping costs are only very weakly correlated with these delays, meaning distance and package weight are not the main issues. Instead, the comparative boxplots clearly demonstrate that crossing state borders is the primary driver of extended transit times. To optimize logistics, the company should encourage sellers to utilize regional fulfillment centers, shifting the focus from interstate shipping to localized delivery networks.
 
+---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## 👥 Task 4: Customer Retention
+# 👥 Task 4: Customer Retention & Lifecycle
+## Step A: One-Time vs. Returning Customers (SQL)
 #### **Objective:**
 To measure customer "stickiness" by identifying returning users and evaluating their spending habits compared to one-time buyers.
 
@@ -325,40 +348,56 @@ The vast majority of the database consists of one-time buyers, which highlights 
 
 ---
 
-## ⭐ Task 5: Delivery vs Satisfaction
+## Step B: Customer Retention Window (PYTHON)
 #### **Objective:**
-To prove the direct correlation between shipping speed and customer ratings (Review Scores).
+To analyze the purchasing rhythm of the returning customers by calculating the exact time elapsed between their first and second order, defining the optimal retargeting window.
 
-#### **SQL Query:**
-```sql
-WITH delivery_and_reviews AS (
-SELECT orders.order_id, reviews.review_score,
-CASE 
-WHEN (julianday(orders.order_delivered_customer_date) - julianday(orders.order_estimated_delivery_date)) > 3 THEN 'Very Late'
-WHEN (julianday(orders.order_delivered_customer_date) - julianday(orders.order_estimated_delivery_date)) > 0 THEN 'Slightly Late'
-ELSE 'On-time or Early'
-END AS delivery_status
-FROM olist_orders_dataset AS orders
-JOIN olist_order_reviews_dataset AS reviews ON orders.order_id = reviews.order_id
-WHERE orders.order_status = 'delivered'
+#### **PYTHON Query:**
+```python
+returning_customers = df_merged[df_merged.groupby('customer_unique_id')['customer_id'].transform('count') >= 2]
+returning_customers['order_purchase_timestamp'] = pd.to_datetime(returning_customers['order_purchase_timestamp'])
+
+returning = returning_customers.sort_values(by='order_purchase_timestamp')
+returning = returning.set_index('customer_unique_id')
+
+date_of_first_purchase = returning.groupby('customer_unique_id')['order_purchase_timestamp'].nth(0)
+date_of_second_purchase = returning.groupby('customer_unique_id')['order_purchase_timestamp'].nth(1)
+
+customer_retention_window = (date_of_second_purchase - date_of_first_purchase).dt.days
+
+customer_retention_window_days = customer_retention_window.reset_index(name='days till second purchase')
+customer_retention_window_days = customer_retention_window_days[customer_retention_window_days['days till second purchase'] > 0]
+
+most_common_customer_retention_window = customer_retention_window_days['days till second purchase'].value_counts().head(5)
+
+print("Top 5 most common customer retention windows (days):")
+print(most_common_customer_retention_window)
+
+p4 = sns.histplot(
+    data=customer_retention_window_days, 
+    x='days till second purchase', 
+    binwidth=7,            
+    binrange=(1, 365),     
+    kde=True               
 )
-SELECT 
-delivery_status,
-COUNT(*) AS number_of_reviews,
-ROUND(AVG(review_score), 2) AS average_review_score
-FROM delivery_and_reviews
-GROUP BY delivery_status
-ORDER BY average_review_score DESC;
-```
 
+plt.title('Time between first and second purchase of a customer', y = 0.99)
+plt.xlabel('Time till second purchase (days)')
+plt.ylabel('Number of clients')
+plt.xlim(1, 365) 
+plt.show()
+plt.clf()
+```
 #### **Analysis & Results:**
-This analysis connects logistics data with customer sentiment. By calculating the difference between actual and estimated delivery dates, orders were categorized into three delivery delay segments (same as Task3). Then the average review score (1-5) was calculated for each segment. This reveals exactly how much delivery performance impacts customer satisfaction.
+The script filters the dataset to isolate users with multiple orders and extracts the exact timestamps of their first and second purchases. By calculating the difference in days, it generates a distribution histogram filtered to a standard one-year (365 days) timeframe, grouped into weekly (7-day) bins.
 
 #### **Visual Result:**
-![Task 5 Results](images/Task5updated.png)
+![Task 4 Results](images/Python_retention.png)
+![Task 4 Results](images/Figure_5.png)
+
 
 #### **Business Insights:**
-The data clearly shows a sharp decline in average ratings for "Very Late" deliveries compared to those that arrive on time. Logistics is a critical driver of brand reputation. Improving shipping reliability is the most direct way to increase the overall satisfaction score of the platform. This correlation helps the business justify higher investments in logistics optimization by showing its direct impact on customer feedback.
+The data shows that when customers return, they do it quickly—most often within 1 to 6 days after their first purchase. This means immediate engagement is key. To turn more one-time buyers into repeat customers, the marketing team should send automated "forgot something?" emails or quick discounts right after the first order. Focusing on this crucial first week is the best way to drive retention.
 
 ---
 
