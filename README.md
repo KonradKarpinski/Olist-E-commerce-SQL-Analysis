@@ -1,7 +1,7 @@
 # 📊 Brazilian E-commerce Analysis (Olist Dataset)
 
 ### **Project Overview**
-This project focuses on extracting actionable business insights from a large-scale e-commerce dataset containing over 100,000 orders. To tackle complex business problems—such as sales growth, logistics bottlenecks, brand profitability, and customer retention — I implemented a two-step workflow:
+This project focuses on extracting actionable business insights from a large-scale e-commerce dataset containing over 100,000 orders. To tackle complex business problems — such as sales growth, logistics bottlenecks, brand profitability, and customer retention — I implemented a two-step workflow:
 
 1. **Data Extraction (SQL):** Writing queries to aggregate, clean, and segment raw data directly from the relational database.
 2. **Advanced Analysis (Python):** Utilizing libraries like Pandas, Seaborn, and SciPy to test statistical hypotheses, uncover correlations, and create impactful data visualizations.
