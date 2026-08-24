@@ -40,7 +40,7 @@ for col in dimensions:
 ```
 
 #### **Analysis & Results:**
-The Python script cleans the raw dataset to fix missing values and logical errors. Key steps include filling missing product dimensions using category medians, labeling empty product categories as "Unknown", and removing impossible records (like orders delivered before they were even shipped). Minor missing details were left alone to preserve data volume. Finally, the clean dataset was exported to an SQL database for further analysis.
+The Python script cleans the raw dataset to fix missing values and logical errors. Key steps include filling missing product dimensions using category medians, labeling empty product categories as "Unknown", and removing impossible records (like orders delivered before they were even shipped). Minor missing details were left alone to preserve data volume. Finally, the clean dataset was exported to an SQL database for further analysis. Full code showing the process of finding missing values and checking datasets for anomalies can be found in the Python code file.
 
 #### **Business Insights:**
 Good business decisions require clean data. By fixing broken delivery dates etc., we make sure our calculations for profitability and logistics are accurate. This step guarantees that all the final recommendations in this project are built on solid, trustworthy numbers.
@@ -292,7 +292,7 @@ p2 = sns.relplot(
     y='delivery_time_days',
     kind='scatter'
 )
-p2.fig.suptitle('Correlation between freight value and delivery time', y=1.05)
+p2.fig.suptitle('Correlation between freight value and delivery time', y=0.99)
 p2.set_axis_labels('Freight value', 'Delivery time (days)')
 plt.show()
 ```
@@ -391,7 +391,6 @@ plt.xlabel('Time till second purchase (days)')
 plt.ylabel('Number of clients')
 plt.xlim(1, 365) 
 plt.show()
-plt.clf()
 ```
 #### **Analysis & Results:**
 The script filters the dataset to isolate users with multiple orders and extracts the exact timestamps of their first and second purchases. By calculating the difference in days, it generates a distribution histogram filtered to a standard one-year (365 days) timeframe, grouped into weekly (7-day) bins.
@@ -405,8 +404,7 @@ The data shows that when customers return, they do it quickly—most often withi
 
 ---
 
-## 🏁 Final Business Conclusion
-### 🎯 Final Business Conclusion
+## 🎯 Final Business Conclusion
 
 Based on the hybrid SQL and Python analysis of the Olist dataset, the company’s current condition and strategic imperatives can be summarized as follows:
 
