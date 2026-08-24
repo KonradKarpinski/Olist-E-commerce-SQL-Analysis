@@ -103,7 +103,6 @@ p6.fig.suptitle('Store Sales Trend (7-Day Rolling Average)', y=0.99)
 p6.set_axis_labels('Order Date', 'Sale')
 plt.xticks(rotation=45)
 plt.show()
-plt.clf()
 ```
 
 #### **Analysis & Results:**
@@ -152,7 +151,7 @@ Health & Beauty and Watches are the primary revenue drivers for the platform. Th
 
 ## Step B: Margin killers (PYTHON)
 #### **Objective:**
-To cross-reference the top revenue-generating product categories with their average customer review scores, identifying "margin killers" — categories that drive high gross sales but suffer from poor customer satisfaction.
+To cross-reference the top revenue-generating product categories with their average customer review scores, identifying "margin killers" - categories that drive high gross sales but suffer from poor customer satisfaction.
 
 #### **PYTHON Query:**
 ```python
@@ -175,11 +174,10 @@ p5 = sns.catplot(
     hue='review_score',
 )
 
-p5.fig.suptitle('Product categories with the highest revenue and worst reviews', y=1)
+p5.fig.suptitle('Product categories with the highest revenue and worst reviews', y=0.99)
 p5.set_axis_labels('Product category', 'Revenue per product category [mln]')
 plt.xticks(rotation=45, ha='right')
 plt.show()
-plt.clf()
 ```
 
 #### **Analysis & Results:**
