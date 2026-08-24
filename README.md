@@ -359,7 +359,9 @@ To analyze the purchasing rhythm of the returning customers by calculating the e
 
 #### **PYTHON Query:**
 ```python
-returning_customers = df_merged[df_merged.groupby('customer_unique_id')['customer_id'].transform('count') >= 2]
+df_retention = pd.merge(orders, customers, how='inner', on='customer_id')
+
+returning_customers = df_retention[df_retention.groupby('customer_unique_id')['customer_id'].transform('count') >= 2]
 returning_customers['order_purchase_timestamp'] = pd.to_datetime(returning_customers['order_purchase_timestamp'])
 
 returning = returning_customers.sort_values(by='order_purchase_timestamp')
@@ -397,12 +399,11 @@ plt.clf()
 The script filters the dataset to isolate users with multiple orders and extracts the exact timestamps of their first and second purchases. By calculating the difference in days, it generates a distribution histogram filtered to a standard one-year (365 days) timeframe, grouped into weekly (7-day) bins.
 
 #### **Visual Result:**
-![Task 4 Results](images/Python_retention.png)
-![Task 4 Results](images/Figure_5.png)
-
+![Task 4 Results](images/Figure_8.png)
+![Task 4 Results](images/Figure_7.png)
 
 #### **Business Insights:**
-The data shows that when customers return, they do it quickly—most often within 1 to 6 days after their first purchase. This means immediate engagement is key. To turn more one-time buyers into repeat customers, the marketing team should send automated "forgot something?" emails or quick discounts right after the first order. Focusing on this crucial first week is the best way to drive retention.
+The data shows that when customers return, they do it quickly—most often within the first week (1 to 7 days) after their first purchase. This means immediate engagement is key. To turn more one-time buyers into repeat customers, the marketing team should send automated "forgot something?" emails or quick discounts right after the first order. Focusing on this crucial first week is the best way to drive retention.
 
 ---
 
@@ -413,5 +414,5 @@ Based on the hybrid SQL and Python analysis of the Olist dataset, the company’
 
 *   **Growth Potential & Trends:** The business is in a strong expansion phase. Consistent monthly revenue growth and massive scalability during peak seasons (like Black Friday) indicate a healthy, growing market presence.
 *   **Logistics as a Reputation Threat:** Delivery performance is the biggest bottleneck and directly correlates with poor customer ratings. While SQL identified critical delays in specific regions, the Python analysis proved that the root cause is **interstate shipping borders**, not freight costs. To protect its reputation, Olist must incentivize sellers to utilize regional fulfillment centers to keep deliveries localized.
-*   **The Customer Loyalty Gap:** The platform is dangerously reliant on new customer acquisition, with over 94% of the user base being one-time buyers. However, Python analysis uncovered a critical **1 to 6-day retention window**. The company must shift its marketing budget toward immediate, automated post-purchase re-engagement to convert these buyers before they go cold.
+*   **The Customer Loyalty Gap:** The platform is dangerously reliant on new customer acquisition, with over 94% of the user base being one-time buyers. However, Python analysis uncovered a critical **1 to 7-day retention window**. The company must shift its marketing budget toward immediate, automated post-purchase re-engagement to convert these buyers before they go cold.
 *   **Product Strategy & "Margin Killers":** The platform's revenue relies on a split model of high-volume budget items and lower-volume premium goods. However, the Python analysis uncovered a hidden threat: certain high-revenue categories act as "margin killers" due to consistently poor customer reviews. To maximize true profitability and protect brand trust, the company must audit the quality of these high-selling but low-rated products. Moving forward, Olist must decide whether to enforce stricter quality controls on budget items or shift its focus toward higher-rated premium goods.
