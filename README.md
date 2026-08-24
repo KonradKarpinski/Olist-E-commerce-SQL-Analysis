@@ -40,10 +40,10 @@ for col in dimensions:
 ```
 
 #### **Analysis & Results:**
-The query above shows two ways of dealing with missing values and data anomalies - dropping rows with NA's (like delivered orders with missing values) and data anomalies (order was delivered after it was received by a customer) or filling missing values (unknown product categories and physical dimensions of a product). The rest of missing values were found to be acceptable or not worth dropping or filling (such as product name length). The rest of the code showing the process of finding missing values and data anomalies can be found in a file with python code.
+The Python script cleans the raw dataset to fix missing values and logical errors. Key steps include filling missing product dimensions using category medians, labeling empty product categories as "Unknown", and removing impossible records (like orders delivered before they were even shipped). Minor missing details were left alone to preserve data volume. Finally, the clean dataset was exported to an SQL database for further analysis.
 
 #### **Business Insights:**
-Clean data, also imported to SQL, now allows to get proper business inisights.
+Good business decisions require clean data. By fixing broken delivery dates etc., we make sure our calculations for profitability and logistics are accurate. This step guarantees that all the final recommendations in this project are built on solid, trustworthy numbers.
 
 ---
 
