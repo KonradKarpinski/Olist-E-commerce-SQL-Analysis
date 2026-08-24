@@ -10,7 +10,13 @@ This project was developed as a practical exercise to master end-to-end business
 
 ---
 
-## 📈 Task 0: Data Cleaning & Data Validation
+### 📂 Project Files
+* 💾 **SQL Queries:** [analysis_queries.sql](analysis_queries.sql)
+* 🐍 **Python Script:** [python_code.py](python_code.py)
+
+---
+
+## 🧹 Task 0: Data Cleaning & Data Validation
 #### **Objective:**
 To ensure data integrity before performing advanced analysis or statistical modeling – specifically by identifying missing values and resolving data anomalies.
 
